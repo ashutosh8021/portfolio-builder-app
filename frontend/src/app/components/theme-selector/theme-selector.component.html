@@ -1,4 +1,9 @@
 <div class="theme-selector">
+  <div class="section-header">
+    <h3>🎨 Choose Your Theme</h3>
+    <p>Select a beautiful theme that represents your style</p>
+  </div>
+  
   <div class="themes-grid">
     <div *ngFor="let theme of themes" 
          class="theme-card"
@@ -6,6 +11,19 @@
          (click)="selectTheme(theme.id)">
       
       <div class="theme-preview">
+        <div class="preview-header" [style.background]="theme.headerBg">
+          <div class="preview-avatar"></div>
+          <div class="preview-text">
+            <div class="preview-name"></div>
+            <div class="preview-title"></div>
+          </div>
+        </div>
+        
+        <div class="preview-content" [style.background]="theme.contentBg">
+          <div class="preview-section"></div>
+          <div class="preview-section"></div>
+        </div>
+        
         <div class="color-palette">
           <div *ngFor="let color of theme.colors" 
                class="color-swatch" 
@@ -16,10 +34,13 @@
       <div class="theme-info">
         <h4>{{ theme.name }}</h4>
         <p>{{ theme.description }}</p>
+        <div class="theme-tags">
+          <span *ngFor="let tag of theme.tags" class="tag">{{ tag }}</span>
+        </div>
       </div>
       
       <div class="selected-indicator" *ngIf="selectedTheme === theme.id">
-        <i class="checkmark">✓</i>
+        <div class="checkmark">✓</div>
       </div>
     </div>
   </div>

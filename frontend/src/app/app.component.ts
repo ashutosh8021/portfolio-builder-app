@@ -6,22 +6,35 @@ import { Component } from '@angular/core';
     <div class="app-container">
       <nav class="navbar">
         <div class="container">
-          <h1>Portfolio Builder</h1>
+          <div class="brand">
+            <h1>🎨 Portfolio Builder</h1>
+            <span class="tagline">Create stunning portfolios in minutes</span>
+          </div>
           <div class="nav-links">
-            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create</a>
-            <a routerLink="/preview" routerLinkActive="active">Preview</a>
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <i class="icon">✏️</i> Create
+            </a>
+            <a routerLink="/preview" routerLinkActive="active">
+              <i class="icon">👀</i> Preview
+            </a>
           </div>
         </div>
       </nav>
-      <main>
+      <main class="main-content">
         <router-outlet></router-outlet>
       </main>
     </div>
   `,
   styles: [`
+    .app-container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
     .navbar {
-      background-color: #343a40;
-      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       padding: 1rem 0;
       margin-bottom: 2rem;
     }
@@ -31,19 +44,71 @@ import { Component } from '@angular/core';
       justify-content: space-between;
       align-items: center;
     }
-    
-    .nav-links a {
+
+    .brand h1 {
       color: white;
-      text-decoration: none;
-      margin-left: 1rem;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      transition: background-color 0.3s;
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .tagline {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      font-weight: 400;
+      display: block;
+      margin-top: 4px;
     }
     
-    .nav-links a:hover,
+    .nav-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a .icon {
+      font-size: 16px;
+    }
+    
+    .nav-links a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
     .nav-links a.active {
-      background-color: #495057;
+      background: rgba(255, 255, 255, 0.9);
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .main-content {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   `]
 })

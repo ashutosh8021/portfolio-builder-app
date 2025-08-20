@@ -1,53 +1,79 @@
 <div class="container">
-  <div class="card">
-    <h2>Create Your Portfolio</h2>
-    
-    <form [formGroup]="portfolioForm" (ngSubmit)="onSubmit()">
-      <!-- Personal Information -->
-      <section class="form-section">
-        <h3>Personal Information</h3>
-        
-        <div class="form-group">
-          <label for="name">Full Name *</label>
-          <input type="text" id="name" formControlName="name" placeholder="Enter your full name">
-        </div>
-        
-        <div class="form-group">
-          <label for="title">Professional Title *</label>
-          <input type="text" id="title" formControlName="title" placeholder="e.g., Frontend Developer, UI/UX Designer">
-        </div>
-        
-        <!-- Profile Photo Section -->
-        <div class="form-group">
-          <label for="profilePhoto">Profile Photo</label>
-          <div class="photo-upload-container">
-            <input type="file" id="profilePhoto" (change)="onProfilePhotoSelected($event)" 
-                   accept="image/*" class="file-input">
-            <div class="photo-preview" *ngIf="profilePhotoPreview">
-              <img [src]="profilePhotoPreview" alt="Profile Photo Preview" class="preview-image">
-              <button type="button" class="btn btn-remove-photo" (click)="removeProfilePhoto()">×</button>
+  <div class="hero-section">
+    <h1 class="hero-title">✨ Create Your Amazing Portfolio</h1>
+    <p class="hero-subtitle">Build a stunning professional portfolio in just a few minutes</p>
+  </div>
+
+  <div class="form-container">
+    <div class="progress-indicator">
+      <div class="progress-step active" [class.completed]="isStepCompleted(1)">
+        <div class="step-number">1</div>
+        <span>Personal Info</span>
+      </div>
+      <div class="progress-line" [class.completed]="isStepCompleted(1)"></div>
+      <div class="progress-step" [class.active]="currentStep >= 2" [class.completed]="isStepCompleted(2)">
+        <div class="step-number">2</div>
+        <span>Projects</span>
+      </div>
+      <div class="progress-line" [class.completed]="isStepCompleted(2)"></div>
+      <div class="progress-step" [class.active]="currentStep >= 3" [class.completed]="isStepCompleted(3)">
+        <div class="step-number">3</div>
+        <span>Theme & Preview</span>
+      </div>
+    </div>
+
+    <div class="card form-card">
+      <form [formGroup]="portfolioForm" (ngSubmit)="onSubmit()">
+        <!-- Personal Information -->
+        <section class="form-section" [class.active]="currentStep === 1">
+          <div class="section-header">
+            <h3>👤 Personal Information</h3>
+            <p>Tell us about yourself and your professional background</p>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input type="text" id="name" formControlName="name" placeholder="Enter your full name">
             </div>
-            <div class="photo-upload-placeholder" *ngIf="!profilePhotoPreview">
-              <i class="upload-icon">📷</i>
-              <span>Click to upload profile photo</span>
-              <small>JPG, PNG, GIF up to 5MB</small>
+            
+            <div class="form-group">
+              <label for="title">Professional Title *</label>
+              <input type="text" id="title" formControlName="title" placeholder="e.g., Frontend Developer, UI/UX Designer">
             </div>
           </div>
-        </div>
-        
-        <div class="form-row">
+          
+          <!-- Profile Photo Section -->
           <div class="form-group">
-            <label for="email">Email *</label>
-            <input type="email" id="email" formControlName="email" placeholder="your.email@example.com">
+            <label for="profilePhoto">Profile Photo</label>
+            <div class="photo-upload-container">
+              <input type="file" id="profilePhoto" (change)="onProfilePhotoSelected($event)" 
+                     accept="image/*" class="file-input">
+              <div class="photo-preview" *ngIf="profilePhotoPreview">
+                <img [src]="profilePhotoPreview" alt="Profile Photo Preview" class="preview-image">
+                <button type="button" class="btn-remove-photo" (click)="removeProfilePhoto()">×</button>
+              </div>
+              <div class="photo-upload-placeholder" *ngIf="!profilePhotoPreview">
+                <div class="upload-icon">📷</div>
+                <span>Click to upload profile photo</span>
+                <small>JPG, PNG, GIF up to 5MB</small>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" formControlName="email" placeholder="your.email@example.com">
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" formControlName="phone" placeholder="+1 (555) 123-4567">
+            </div>
           </div>
           
           <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="tel" id="phone" formControlName="phone" placeholder="+1 (555) 123-4567">
-          </div>
-        </div>
-        
-        <div class="form-group">
           <label for="bio">Bio *</label>
           <textarea id="bio" formControlName="bio" rows="4" 
                     placeholder="Write a brief description about yourself and your professional background..."></textarea>

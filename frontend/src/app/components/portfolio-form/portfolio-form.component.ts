@@ -15,6 +15,7 @@ export class PortfolioFormComponent {
   profilePhotoFile: File | null = null;
   projectPhotoPreviews: { [key: number]: string } = {};
   projectPhotoFiles: { [key: number]: File } = {};
+  currentStep = 1;
 
   constructor(
     private fb: FormBuilder,
@@ -152,5 +153,32 @@ export class PortfolioFormComponent {
     
     this.portfolioService.setPortfolioData(portfolioData);
     this.router.navigate(['/preview']);
+  }
+
+  isStepCompleted(step: number): boolean {
+    if (step === 1) {
+      return !!(this.portfolioForm.get('name')?.valid && 
+               this.portfolioForm.get('title')?.valid && 
+               this.portfolioForm.get('email')?.valid);
+    }
+    if (step === 2) {
+      return this.projects.length > 0;
+    }
+    if (step === 3) {
+      return this.selectedTheme !== '';
+    }
+    return false;
+  }
+
+  nextStep() {
+    if (this.currentStep < 3) {
+      this.currentStep++;
+    }
+  }
+
+  previousStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
   }
 }
