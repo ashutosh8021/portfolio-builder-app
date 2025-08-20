@@ -1,0 +1,26 @@
+<div class="theme-selector">
+  <div class="themes-grid">
+    <div *ngFor="let theme of themes" 
+         class="theme-card"
+         [class.selected]="selectedTheme === theme.id"
+         (click)="selectTheme(theme.id)">
+      
+      <div class="theme-preview">
+        <div class="color-palette">
+          <div *ngFor="let color of theme.colors" 
+               class="color-swatch" 
+               [style.background-color]="color"></div>
+        </div>
+      </div>
+      
+      <div class="theme-info">
+        <h4>{{ theme.name }}</h4>
+        <p>{{ theme.description }}</p>
+      </div>
+      
+      <div class="selected-indicator" *ngIf="selectedTheme === theme.id">
+        <i class="checkmark">✓</i>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<div class="preview-container">
+  <div class="preview-header">
+    <div class="container">
+      <h2>Portfolio Preview</h2>
+      <div class="preview-actions">
+        <button class="btn btn-secondary" routerLink="/">← Edit Portfolio</button>
+        <button class="btn btn-primary" (click)="savePortfolio()" [disabled]="!portfolioData">
+          Save Portfolio
+        </button>
+        <button class="btn btn-primary" (click)="downloadPortfolio()" 
+                [disabled]="!portfolioData || isGenerating">
+          {{ isGenerating ? 'Generating...' : 'Download ZIP' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="preview-content" *ngIf="portfolioData">
+    <!-- Theme-based portfolio preview -->
+    <div class="portfolio-preview" [ngClass]="'theme-' + portfolioData.theme">
+      
+      <!-- Header Section -->
+      <header class="portfolio-header">
+        <div class="header-content">
+          <div class="profile-photo" *ngIf="portfolioData.profilePhoto">
+            <img [src]="portfolioData.profilePhoto" [alt]="portfolioData.name" class="profile-img">
+          </div>
+          <h1 class="name">{{ portfolioData.name }}</h1>
+          <p class="title">{{ portfolioData.title }}</p>
+          <p class="bio">{{ portfolioData.bio }}</p>
+          
+          <div class="contact-info">
+            <span class="contact-item">{{ portfolioData.email }}</span>
+            <span class="contact-item" *ngIf="portfolioData.phone">{{ portfolioData.phone }}</span>
+          </div>
+          
+          <div class="social-links" *ngIf="portfolioData.socialLinks">
+            <a *ngIf="portfolioData.socialLinks.github" 
+               [href]="portfolioData.socialLinks.github" 
+               target="_blank" class="social-link">GitHub</a>
+            <a *ngIf="portfolioData.socialLinks.linkedin" 
+               [href]="portfolioData.socialLinks.linkedin" 
+               target="_blank" class="social-link">LinkedIn</a>
+            <a *ngIf="portfolioData.socialLinks.twitter" 
+               [href]="portfolioData.socialLinks.twitter" 
+               target="_blank" class="social-link">Twitter</a>
+            <a *ngIf="portfolioData.socialLinks.website" 
+               [href]="portfolioData.socialLinks.website" 
+               target="_blank" class="social-link">Website</a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Skills Section -->
+      <section class="skills-section" *ngIf="portfolioData.skills?.length">
+        <div class="section-content">
+          <h2>Skills</h2>
+          <div class="skills-grid">
+            <span *ngFor="let skill of portfolioData.skills" class="skill-tag">{{ skill }}</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section class="projects-section" *ngIf="portfolioData.projects?.length">
+        <div class="section-content">
+          <h2>Projects</h2>
+          <div class="projects-grid">
+            <div *ngFor="let project of portfolioData.projects; let i = index" class="project-card">
+              <div class="project-image" *ngIf="getProjectImage(i)">
+                <img [src]="getProjectImage(i)" [alt]="project.name + ' screenshot'" class="project-img">
+              </div>
+              <h3>{{ project.name }}</h3>
+              <p class="project-description">{{ project.description }}</p>
+              <p class="project-tech" *ngIf="project.technologies">
+                <strong>Technologies:</strong> {{ project.technologies }}
+              </p>
+              <div class="project-links">
+                <a *ngIf="project.url" [href]="project.url" target="_blank" class="project-link">
+                  View Live
+                </a>
+                <a *ngIf="project.github" [href]="project.github" target="_blank" class="project-link">
+                  View Code
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="no-data" *ngIf="!portfolioData">
+    <div class="container">
+      <h3>No portfolio data found</h3>
+      <p>Please go back and fill out the portfolio form first.</p>
+      <button class="btn btn-primary" routerLink="/">Create Portfolio</button>
+    </div>
+  </div>
+</div>

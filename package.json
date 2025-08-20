@@ -1,0 +1,10 @@
+{
+  "name": "portfolio-builder-netlify",
+  "version": "1.0.0",
+  "description": "Netlify functions for Portfolio Builder",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0",
+    "archiver": "^6.0.1",
+    "handlebars": "^4.7.8"
+  }
+}

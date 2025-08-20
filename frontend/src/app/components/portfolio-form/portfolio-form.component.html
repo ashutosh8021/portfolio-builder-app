@@ -1,0 +1,180 @@
+<div class="container">
+  <div class="card">
+    <h2>Create Your Portfolio</h2>
+    
+    <form [formGroup]="portfolioForm" (ngSubmit)="onSubmit()">
+      <!-- Personal Information -->
+      <section class="form-section">
+        <h3>Personal Information</h3>
+        
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" formControlName="name" placeholder="Enter your full name">
+        </div>
+        
+        <div class="form-group">
+          <label for="title">Professional Title *</label>
+          <input type="text" id="title" formControlName="title" placeholder="e.g., Frontend Developer, UI/UX Designer">
+        </div>
+        
+        <!-- Profile Photo Section -->
+        <div class="form-group">
+          <label for="profilePhoto">Profile Photo</label>
+          <div class="photo-upload-container">
+            <input type="file" id="profilePhoto" (change)="onProfilePhotoSelected($event)" 
+                   accept="image/*" class="file-input">
+            <div class="photo-preview" *ngIf="profilePhotoPreview">
+              <img [src]="profilePhotoPreview" alt="Profile Photo Preview" class="preview-image">
+              <button type="button" class="btn btn-remove-photo" (click)="removeProfilePhoto()">×</button>
+            </div>
+            <div class="photo-upload-placeholder" *ngIf="!profilePhotoPreview">
+              <i class="upload-icon">📷</i>
+              <span>Click to upload profile photo</span>
+              <small>JPG, PNG, GIF up to 5MB</small>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" formControlName="email" placeholder="your.email@example.com">
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" formControlName="phone" placeholder="+1 (555) 123-4567">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="bio">Bio *</label>
+          <textarea id="bio" formControlName="bio" rows="4" 
+                    placeholder="Write a brief description about yourself and your professional background..."></textarea>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section class="form-section">
+        <h3>Skills</h3>
+        <div formArrayName="skills">
+          <div *ngFor="let skill of skills.controls; let i = index" class="skill-item">
+            <input type="text" [formControlName]="i" placeholder="Enter a skill">
+            <button type="button" class="btn btn-remove" (click)="removeSkill(i)">Remove</button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary" (click)="addSkill()">Add Skill</button>
+      </section>
+
+      <!-- Projects -->
+      <section class="form-section">
+        <h3>Projects</h3>
+        <div formArrayName="projects">
+          <div *ngFor="let project of projects.controls; let i = index" class="project-item card">
+            <div [formGroupName]="i">
+              <div class="form-group">
+                <label>Project Name *</label>
+                <input type="text" formControlName="name" placeholder="Project name">
+              </div>
+              
+              <div class="form-group">
+                <label>Description *</label>
+                <textarea formControlName="description" rows="3" 
+                          placeholder="Describe what this project does..."></textarea>
+              </div>
+              
+              <div class="form-group">
+                <label>Technologies</label>
+                <input type="text" formControlName="technologies" 
+                       placeholder="React, Node.js, MongoDB, etc.">
+              </div>
+              
+              <!-- Project Photo -->
+              <div class="form-group">
+                <label>Project Image</label>
+                <div class="photo-upload-container">
+                  <input type="file" [id]="'projectPhoto' + i" (change)="onProjectPhotoSelected($event, i)" 
+                         accept="image/*" class="file-input">
+                  <div class="photo-preview" *ngIf="getProjectPhotoPreview(i)">
+                    <img [src]="getProjectPhotoPreview(i)" alt="Project Photo Preview" class="preview-image project-preview">
+                    <button type="button" class="btn btn-remove-photo" (click)="removeProjectPhoto(i)">×</button>
+                  </div>
+                  <div class="photo-upload-placeholder" *ngIf="!getProjectPhotoPreview(i)">
+                    <i class="upload-icon">🖼️</i>
+                    <span>Click to upload project screenshot</span>
+                    <small>JPG, PNG, GIF up to 5MB</small>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Live URL</label>
+                  <input type="url" formControlName="url" placeholder="https://project-demo.com">
+                </div>
+                
+                <div class="form-group">
+                  <label>GitHub URL</label>
+                  <input type="url" formControlName="github" placeholder="https://github.com/username/project">
+                </div>
+              </div>
+              
+              <button type="button" class="btn btn-remove" (click)="removeProject(i)">Remove Project</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary" (click)="addProject()">Add Project</button>
+      </section>
+
+      <!-- Social Links -->
+      <section class="form-section">
+        <h3>Social Links</h3>
+        <div formGroupName="socialLinks">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="github">GitHub</label>
+              <input type="url" id="github" formControlName="github" 
+                     placeholder="https://github.com/username">
+            </div>
+            
+            <div class="form-group">
+              <label for="linkedin">LinkedIn</label>
+              <input type="url" id="linkedin" formControlName="linkedin" 
+                     placeholder="https://linkedin.com/in/username">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="twitter">Twitter</label>
+              <input type="url" id="twitter" formControlName="twitter" 
+                     placeholder="https://twitter.com/username">
+            </div>
+            
+            <div class="form-group">
+              <label for="website">Personal Website</label>
+              <input type="url" id="website" formControlName="website" 
+                     placeholder="https://yourwebsite.com">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Theme Selection -->
+      <section class="form-section">
+        <h3>Choose a Theme</h3>
+        <app-theme-selector (themeSelected)="onThemeSelected($event)"></app-theme-selector>
+      </section>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="generatePreview()">
+          Preview Portfolio
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="!portfolioForm.valid">
+          Generate Portfolio
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

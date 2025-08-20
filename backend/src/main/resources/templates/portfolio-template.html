@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${portfolio.name} + ' - Portfolio'">Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <h1 class="name" th:text="${portfolio.name}">Full Name</h1>
+        <p class="title" th:text="${portfolio.title}">Professional Title</p>
+        <p class="bio" th:text="${portfolio.bio}">Bio description</p>
+        
+        <div class="contact-info">
+            <span th:text="${portfolio.email}">email@example.com</span>
+            <span th:if="${portfolio.phone}" th:text="${portfolio.phone}">Phone</span>
+        </div>
+        
+        <div class="social-links" th:if="${portfolio.socialLinks}">
+            <a th:if="${portfolio.socialLinks.github}" 
+               th:href="${portfolio.socialLinks.github}" 
+               target="_blank" class="social-link">GitHub</a>
+            <a th:if="${portfolio.socialLinks.linkedin}" 
+               th:href="${portfolio.socialLinks.linkedin}" 
+               target="_blank" class="social-link">LinkedIn</a>
+            <a th:if="${portfolio.socialLinks.twitter}" 
+               th:href="${portfolio.socialLinks.twitter}" 
+               target="_blank" class="social-link">Twitter</a>
+            <a th:if="${portfolio.socialLinks.website}" 
+               th:href="${portfolio.socialLinks.website}" 
+               target="_blank" class="social-link">Website</a>
+        </div>
+    </header>
+
+    <!-- Skills Section -->
+    <section class="section" th:if="${portfolio.skills} and ${not #lists.isEmpty(portfolio.skills)}">
+        <h2>Skills</h2>
+        <div class="skills">
+            <span th:each="skill : ${portfolio.skills}" 
+                  th:text="${skill}" 
+                  class="skill">Skill</span>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section" th:if="${portfolio.projects} and ${not #lists.isEmpty(portfolio.projects)}">
+        <h2>Projects</h2>
+        <div class="projects">
+            <div th:each="project : ${portfolio.projects}" class="project">
+                <h3 th:text="${project.name}">Project Name</h3>
+                <p th:text="${project.description}">Project description</p>
+                <p th:if="${project.technologies}">
+                    <strong>Technologies:</strong> 
+                    <span th:text="${project.technologies}">Tech stack</span>
+                </p>
+                <div class="project-links">
+                    <a th:if="${project.url}" 
+                       th:href="${project.url}" 
+                       target="_blank">View Live</a>
+                    <a th:if="${project.github}" 
+                       th:href="${project.github}" 
+                       target="_blank">View Code</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
