@@ -1,7 +1,8 @@
 [build]
-  command = "cd frontend && npm install && npm run build"
+  base = "frontend"
+  command = "npm install && npm run build"
   functions = "netlify/functions"
-  publish = "frontend/dist/portfolio-builder"
+  publish = "dist/portfolio-builder"
 
 [build.environment]
   NODE_VERSION = "18"
