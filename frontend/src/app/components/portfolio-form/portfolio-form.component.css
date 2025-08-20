@@ -8,19 +8,18 @@
 .hero-title {
   font-size: 3rem;
   font-weight: 700;
-  background: linear-gradient(45deg, #667eea, #764ba2);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #ffffff;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
   margin-bottom: 1rem;
 }
 
 .hero-subtitle {
   font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 300;
+  color: #ffffff;
+  font-weight: 400;
   max-width: 600px;
   margin: 0 auto;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Progress Indicator */
