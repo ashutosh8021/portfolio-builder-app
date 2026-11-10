@@ -42,12 +42,12 @@ A modern, full-stack web application for creating stunning professional portfoli
 
 ##  Local Development
 
-`ash
+```bash
 git clone https://github.com/ashutosh8021/portfolio-builder-app.git
 cd portfolio-builder-app/frontend
 npm install
 npm start
-`
+```
 
 ##  Tech Stack
 
