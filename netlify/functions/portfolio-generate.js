@@ -115,8 +115,22 @@ exports.handler = async (event, context) => {
     };
   }
 
+  let requestBody;
   try {
-    const { portfolioId } = JSON.parse(event.body);
+    requestBody = JSON.parse(event.body);
+  } catch {
+    requestBody = null;
+  }
+  if (!requestBody || typeof requestBody !== 'object' || Array.isArray(requestBody)) {
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({ error: 'Request body must be a JSON object' })
+    };
+  }
+
+  try {
+    const { portfolioId } = requestBody;
 
     if (!portfolioId) {
       return {

@@ -24,8 +24,22 @@ exports.handler = async (event, context) => {
     };
   }
 
+  let portfolioData;
   try {
-    const portfolioData = JSON.parse(event.body);
+    portfolioData = JSON.parse(event.body);
+  } catch {
+    portfolioData = null;
+  }
+  if (!portfolioData || typeof portfolioData !== 'object' || Array.isArray(portfolioData)) {
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({ error: 'Request body must be a JSON object' })
+    };
+  }
+
+  try {
+
     
     // Validate required fields
     if (!portfolioData.name || !portfolioData.email || !portfolioData.title || !portfolioData.bio) {
