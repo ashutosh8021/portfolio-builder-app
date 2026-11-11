@@ -154,7 +154,7 @@ exports.handler = async (event, context) => {
 
     archive.on('data', (chunk) => chunks.push(chunk));
     
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       archive.on('end', () => {
         const buffer = Buffer.concat(chunks);
         const base64 = buffer.toString('base64');
@@ -178,7 +178,7 @@ exports.handler = async (event, context) => {
       archive.append(JSON.stringify(portfolio, null, 2), { name: 'portfolio-data.json' });
       
       // Finalize the archive
-      archive.finalize();
+      archive.finalize().catch(reject);
     });
 
   } catch (error) {
