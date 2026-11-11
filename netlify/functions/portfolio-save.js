@@ -47,10 +47,10 @@ exports.handler = async (event, context) => {
         bio: portfolioData.bio,
         skills: portfolioData.skills || [],
         social_links: {
-          github: portfolioData.github || '',
-          linkedin: portfolioData.linkedin || '',
-          twitter: portfolioData.twitter || '',
-          website: portfolioData.website || ''
+          github: portfolioData.socialLinks?.github ?? portfolioData.github ?? '',
+          linkedin: portfolioData.socialLinks?.linkedin ?? portfolioData.linkedin ?? '',
+          twitter: portfolioData.socialLinks?.twitter ?? portfolioData.twitter ?? '',
+          website: portfolioData.socialLinks?.website ?? portfolioData.website ?? ''
         },
         profile_photo: portfolioData.profilePhoto || null,
         theme: portfolioData.theme || 'modern'
