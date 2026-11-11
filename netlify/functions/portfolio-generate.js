@@ -32,6 +32,7 @@ const portfolioTemplate = `
         .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
         .project { border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .project h3 { color: #667eea; margin-bottom: 0.5rem; }
+        .project-photo { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 1rem; }
         .social-links { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
         .social-links a { color: white; text-decoration: none; padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px; }
         @media (max-width: 768px) { .projects { grid-template-columns: 1fr; } .name { font-size: 2rem; } }
@@ -79,6 +80,7 @@ const portfolioTemplate = `
             <div class="projects">
                 {{#each projects}}
                 <div class="project">
+                    {{#if image}}<img src="{{image}}" alt="{{name}}" class="project-photo">{{/if}}
                     <h3>{{name}}</h3>
                     <p>{{description}}</p>
                     {{#if technologies}}<p><strong>Technologies:</strong> {{technologies}}</p>{{/if}}
@@ -142,6 +144,7 @@ exports.handler = async (event, context) => {
     const template = handlebars.compile(portfolioTemplate);
     const html = template({
       ...portfolio,
+      profilePhoto: portfolio.profile_photo,
       socialLinks: portfolio.social_links || {}
     });
 
