@@ -22,3 +22,24 @@ test('omits image elements when a portfolio has no photos', async () => {
   await handler({ httpMethod: 'POST', body: '{"portfolioId":1}' });
   assert.doesNotMatch(files['index.html'], /<img/);
 });
+
+test('returns a JSON server error when the ZIP stream fails', async () => {
+  const { handler } = loadGenerator({ id: 1, name: 'Demo' }, archive => {
+    archive.finalize = async () => {
+      queueMicrotask(() => archive.emit('error', new Error('ZIP stream failed')));
+    };
+  });
+  const response = await handler({ httpMethod: 'POST', body: '{"portfolioId":1}' });
+  assert.equal(response.statusCode, 500);
+  assert.equal(JSON.parse(response.body).error, 'Failed to generate portfolio');
+  assert.equal(response.headers['Access-Control-Allow-Origin'], '*');
+});
+
+test('handles finalization rejection even without a stream error event', async () => {
+  const { handler } = loadGenerator({ id: 1, name: 'Demo' }, archive => {
+    archive.finalize = async () => { throw new Error('Finalization failed'); };
+  });
+  const response = await handler({ httpMethod: 'POST', body: '{"portfolioId":1}' });
+  assert.equal(response.statusCode, 500);
+  assert.equal(JSON.parse(response.body).error, 'Failed to generate portfolio');
+});
