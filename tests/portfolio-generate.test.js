@@ -43,3 +43,17 @@ test('handles finalization rejection even without a stream error event', async (
   assert.equal(response.statusCode, 500);
   assert.equal(JSON.parse(response.body).error, 'Failed to generate portfolio');
 });
+
+test('returns not found when the requested portfolio no longer exists', async () => {
+  const { handler, files } = loadGenerator(null, undefined, { code: 'PGRST116' });
+  const response = await handler({ httpMethod: 'POST', body: '{"portfolioId":999}' });
+  assert.equal(response.statusCode, 404);
+  assert.equal(JSON.parse(response.body).error, 'Portfolio not found');
+  assert.equal(Object.keys(files).length, 0);
+});
+
+test('does not disguise database failures as missing portfolios', async () => {
+  const { handler } = loadGenerator(null, undefined, { code: '08006', message: 'Connection failure' });
+  const response = await handler({ httpMethod: 'POST', body: '{"portfolioId":1}' });
+  assert.equal(response.statusCode, 500);
+});

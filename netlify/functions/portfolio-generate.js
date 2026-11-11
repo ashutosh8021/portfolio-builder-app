@@ -151,6 +151,13 @@ exports.handler = async (event, context) => {
       .single();
 
     if (error) {
+      if (error.code === 'PGRST116') {
+        return {
+          statusCode: 404,
+          headers,
+          body: JSON.stringify({ error: 'Portfolio not found' })
+        };
+      }
       throw error;
     }
 

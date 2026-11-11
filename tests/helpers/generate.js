@@ -4,7 +4,7 @@ const vm = require('node:vm');
 const { EventEmitter } = require('node:events');
 const handlebars = require('handlebars');
 
-function loadGenerator(portfolio, configureArchive = () => {}) {
+function loadGenerator(portfolio, configureArchive = () => {}, databaseError = null) {
   const files = {};
   const archive = new EventEmitter();
   archive.append = (content, { name }) => { files[name] = content; };
@@ -24,7 +24,7 @@ function loadGenerator(portfolio, configureArchive = () => {}) {
       if (name === 'archiver') return () => archive;
       if (name === '@supabase/supabase-js') return {
         createClient: () => ({
-          from: () => ({ select: () => ({ eq: () => ({ single: async () => ({ data: portfolio }) }) }) })
+          from: () => ({ select: () => ({ eq: () => ({ single: async () => ({ data: portfolio, error: databaseError }) }) }) })
         })
       };
       throw new Error(`Unexpected dependency: ${name}`);
