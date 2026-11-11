@@ -11,8 +11,17 @@ const source = fs.readFileSync(
 
 async function savePortfolio(fields) {
   let saved;
+  let savedProjects = [];
   const supabase = {
     from(table) {
+      if (table === 'projects') {
+        return {
+          async insert(rows) {
+            savedProjects = rows;
+            return { error: null };
+          }
+        };
+      }
       assert.equal(table, 'portfolios');
       return {
         insert([row]) {
@@ -24,7 +33,7 @@ async function savePortfolio(fields) {
             eq(field, value) {
               assert.equal(field, 'id');
               assert.equal(value, saved.id);
-              return { single: async () => ({ data: { ...saved, projects: [] } }) };
+              return { single: async () => ({ data: { ...saved, projects: savedProjects } }) };
             }
           };
         }
@@ -92,4 +101,23 @@ test('defaults missing social links to empty strings', async () => {
       github: '', linkedin: '', twitter: '', website: ''
     });
   }
+});
+
+test('persists form project photos using their project index', async () => {
+  const portfolio = await savePortfolio({
+    projects: [
+      { name: 'First', description: 'First project' },
+      { name: 'Second', description: 'Second project' }
+    ],
+    projectPhotos: { 1: 'data:image/png;base64,c2Vjb25k' }
+  });
+  assert.equal(portfolio.projects[0].image, null);
+  assert.equal(portfolio.projects[1].image, 'data:image/png;base64,c2Vjb25k');
+});
+
+test('preserves project image fields from existing API clients', async () => {
+  const portfolio = await savePortfolio({
+    projects: [{ name: 'Demo', description: 'Demo project', image: 'https://example.com/demo.png' }]
+  });
+  assert.equal(portfolio.projects[0].image, 'https://example.com/demo.png');
 });
