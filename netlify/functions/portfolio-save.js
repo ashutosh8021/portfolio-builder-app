@@ -64,7 +64,7 @@ exports.handler = async (event, context) => {
 
     // Insert projects if they exist
     if (portfolioData.projects && portfolioData.projects.length > 0) {
-      const projectsToInsert = portfolioData.projects.map(project => ({
+      const projectsToInsert = portfolioData.projects.map((project, index) => ({
         portfolio_id: portfolio.id,
         name: project.name,
         description: project.description,
@@ -73,7 +73,7 @@ exports.handler = async (event, context) => {
           : project.technologies || '',
         url: project.url || null,
         github: project.github || null,
-        image: project.image || null
+        image: portfolioData.projectPhotos?.[index] ?? project.image ?? null
       }));
 
       const { error: projectsError } = await supabase
