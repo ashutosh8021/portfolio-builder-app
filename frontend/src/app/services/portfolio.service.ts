@@ -22,7 +22,11 @@ export class PortfolioService {
 
   async savePortfolio(portfolioData: any) {
     try {
-      const response = await this.http.post(`${this.apiUrl}/portfolio-save`, portfolioData).toPromise();
+      const response = await this.http.post<{ id: number }>(`${this.apiUrl}/portfolio-save`, portfolioData).toPromise();
+      if (!response?.id) {
+        throw new Error('Saved portfolio response did not include an ID.');
+      }
+      portfolioData.id = response.id;
       return response;
     } catch (error) {
       console.error('Error saving portfolio:', error);
@@ -32,6 +36,9 @@ export class PortfolioService {
 
   async downloadPortfolio(portfolioData: any) {
     try {
+      if (!portfolioData.id) {
+        await this.savePortfolio(portfolioData);
+      }
       const response = await this.http.post(`${this.apiUrl}/portfolio-generate`, { portfolioId: portfolioData.id }, {
         responseType: 'blob'
       }).toPromise();
