@@ -8,9 +8,9 @@
 [![Netlify](https://img.shields.io/badge/Deploy-Netlify-blue.svg)](https://netlify.com/)
 [![Supabase](https://img.shields.io/badge/Database-Supabase-green.svg)](https://supabase.com/)
 
-** Build stunning professional portfolios in minutes, not hours!**
+**Build stunning professional portfolios in minutes, not hours!**
 
-[ Live Demo](https://main--portfolio-builder-app.netlify.app/)  [ Documentation](#-features)  [ Report Bug](https://github.com/ashutosh8021/portfolio-builder-app/issues)
+[ Live Demo](https://main--portfolio-builder-app.netlify.app/)  [ Documentation](#features)  [ Report Bug](https://github.com/ashutosh8021/portfolio-builder-app/issues)
 
 </div>
 
@@ -20,13 +20,13 @@ A modern, full-stack web application for creating stunning professional portfoli
 
 ##  Features
 
-- ** Beautiful UI/UX** - Modern gradient design with glass morphism effects
-- ** Fully Responsive** - Perfect on desktop, tablet, and mobile devices
-- ** 4 Professional Themes** - Modern, Creative, Corporate, and Minimal styles
-- ** Live Preview** - Real-time portfolio preview as you build
-- ** Download & Deploy** - Export as ZIP file or deploy live instantly
-- ** Cloud Database** - Powered by Supabase PostgreSQL with real-time sync
-- ** Serverless Backend** - Fast, scalable Netlify Functions
+- **Beautiful UI/UX** - Modern gradient design with glass morphism effects
+- **Fully Responsive** - Perfect on desktop, tablet, and mobile devices
+- **4 Professional Themes** - Modern, Creative, Corporate, and Minimal styles
+- **Live Preview** - Real-time portfolio preview as you build
+- **Download & Deploy** - Export as ZIP file or deploy live instantly
+- **Cloud Database** - Powered by Supabase PostgreSQL with real-time sync
+- **Serverless Backend** - Fast, scalable Netlify Functions
 
 ##  Links
 
