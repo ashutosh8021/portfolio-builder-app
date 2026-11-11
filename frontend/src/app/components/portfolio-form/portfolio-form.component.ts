@@ -66,7 +66,20 @@ export class PortfolioFormComponent {
   }
 
   removeProject(index: number) {
+    if (index < 0 || index >= this.projects.length) return;
     this.projects.removeAt(index);
+    this.projectPhotoPreviews = this.reindexProjectPhotos(this.projectPhotoPreviews, index);
+    this.projectPhotoFiles = this.reindexProjectPhotos(this.projectPhotoFiles, index);
+  }
+
+  private reindexProjectPhotos<T>(photos: { [key: number]: T }, removedIndex: number): { [key: number]: T } {
+    const updated: { [key: number]: T } = {};
+    for (const [key, photo] of Object.entries(photos)) {
+      const index = Number(key);
+      if (index < removedIndex) updated[index] = photo;
+      if (index > removedIndex) updated[index - 1] = photo;
+    }
+    return updated;
   }
 
   onThemeSelected(theme: string) {
@@ -93,11 +106,15 @@ export class PortfolioFormComponent {
 
   onProjectPhotoSelected(event: any, projectIndex: number) {
     const file = event.target.files[0];
-    if (file && this.isValidImageFile(file)) {
+    const project = this.projects.at(projectIndex);
+    if (project && file && this.isValidImageFile(file)) {
       this.projectPhotoFiles[projectIndex] = file;
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.projectPhotoPreviews[projectIndex] = e.target.result;
+        const currentIndex = this.projects.controls.indexOf(project);
+        if (currentIndex >= 0 && this.projectPhotoFiles[currentIndex] === file) {
+          this.projectPhotoPreviews[currentIndex] = e.target.result;
+        }
       };
       reader.readAsDataURL(file);
     }
