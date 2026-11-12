@@ -9,7 +9,7 @@
         </button>
         <button class="btn btn-primary" (click)="downloadPortfolio()" 
                 [disabled]="!portfolioData || isGenerating">
-          {{ isGenerating ? 'Generating...' : 'Download ZIP' }}
+          {{ isGenerating ? 'Generating...' : (portfolioData?.id ? 'Download ZIP' : 'Save & Download ZIP') }}
         </button>
       </div>
     </div>
